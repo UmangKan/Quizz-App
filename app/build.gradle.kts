@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.example.quizzapp"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
@@ -14,8 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.example.quizzapp"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
+        targetSdk = 37
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
