@@ -34,7 +34,6 @@ fun WelcomeScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Box(
         modifier = modifier
-            .fillMaxSize()
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(

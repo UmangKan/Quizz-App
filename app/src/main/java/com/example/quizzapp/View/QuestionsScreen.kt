@@ -1,5 +1,6 @@
 package com.example.quizzapp.View
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,11 +18,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.quizzapp.Controller.ResultActivity
 import com.example.quizzapp.Utils.Constants
 
 @Composable
@@ -35,6 +38,8 @@ fun QuestionScreen(
     var score by remember { mutableIntStateOf(0) }
     var showResult by remember { mutableStateOf(false) }
     var isAnswered by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
 
     val currentQuestion = questionList[currentQuestionIndex]
 
@@ -66,6 +71,18 @@ fun QuestionScreen(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            LinearProgressIndicator(
+                progress = { (currentQuestionIndex + 1).toFloat() / questionList.size },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .clip(RoundedCornerShape(4.dp)),
+                color = Color.White,
+                trackColor = Color.White.copy(alpha = 0.3f)
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -189,12 +206,17 @@ fun QuestionScreen(
                             selectedOption = -1
                             isAnswered = false
                         } else {
-                            showResult = true
+                            val intent = Intent(context, ResultActivity::class.java )
+                            intent.putExtra("USER_NAME", userName)
+                            intent.putExtra("SCORE", score)
+                            intent.putExtra("TOTAL_QUESTIONS", questionList.size)
+                            context.startActivity(intent)
                         }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp),
+                        .height(56.dp)
+                        .padding(bottom = 8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White
                     )
